@@ -556,8 +556,7 @@ public class Frmbarang extends javax.swing.JDialog {
                 btnsave.setText("Simpan Perubahan");
                 Connection conn = konek.openkoneksi();
                 java.sql.Statement stm = conn.createStatement();
-                java.sql.ResultSet sql = stm.executeQuery("SELECT tmbarang.id, tmbarang.merk, tmbarang.nama, tmmodel.model as model, tmbarang.spesifikasi, tmbarang.unit, tmbarang.peruntukan, tmclient.nama as nama_pt FROM tmbarang JOIN tmmodel ON tmmodel.id = tmbarang.id_model JOIN tmclient ON tmclient.id = tmbarang.id_client WHERE tmbarang.id='"+row_id+"'");
-        //("SELECT tmsampel.id, tmsampel.merk, tmsampel.nama, tmsampel.id_model, tmmodel.model as model, tmsampel.unit, tmsampel.spesifikasi, tmsampel.peruntukan FROM tmsampel JOIN tmmodel ON tmmodel.id = tmsampel.id_model WHERE tmsampel.id='"+row_id+"'");
+                java.sql.ResultSet sql = stm.executeQuery("SELECT tmbarang.id, tmbarang.merk, tmbarang.nama, tmmodel.model as model, tmbarang.spesifikasi, tmbarang.unit, tmbarang.peruntukan, tmclient.nama as nama_pt FROM tmbarang JOIN tmmodel ON tmmodel.id = tmbarang.id_model JOIN tmclient ON tmclient.id = tmbarang.id_client WHERE tmbarang.id='"+row_id+"'");       
                 if(sql.next()){
                     lbl_action.setForeground(new Color(43, 152, 240));
                     String merk = sql.getString("merk");
@@ -566,9 +565,11 @@ public class Frmbarang extends javax.swing.JDialog {
                     txtmerk.setText(sql.getString("merk"));
                     txtnama.setText(sql.getString("nama"));
                     cmbid_model.setSelectedItem(sql.getString("model"));
-                    txtid_model.setText(sql.getString("id"));
+                    int model = cmbid_model.getSelectedIndex();
+                    txtid_model.setText(sql.getString(model));
                     cmbid_client.setSelectedItem(sql.getString("nama_pt"));
-                    txtid_client.setText(sql.getString("id"));
+                    int client = cmbid_model.getSelectedIndex();
+                    txtid_client.setText(sql.getString(client));
                     txtunit.setText(sql.getString("unit"));
                     txtspesifikasi.setText(sql.getString("spesifikasi"));
                     txtperuntukan.setText(sql.getString("peruntukan"));
@@ -616,7 +617,7 @@ public class Frmbarang extends javax.swing.JDialog {
             }
             
             if("".equals(row_id)){
-                if(c_kode == 0)
+                if(c_kode == 1)
                 {
                     try {
                         Connection conn = konek.openkoneksi();
@@ -636,7 +637,7 @@ public class Frmbarang extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(null, "Merk barang sudah pernah disimpan.", "Gagal Disimpan", JOptionPane.ERROR_MESSAGE);
                 }
             }else{
-                if(c_kode == 0 || row_txtmerk.equals(row_txttemp_kode))
+                if(c_kode == 1 || row_txtmerk.equals(row_txttemp_kode))
                 {
                     try {
                         Connection conn = konek.openkoneksi();
